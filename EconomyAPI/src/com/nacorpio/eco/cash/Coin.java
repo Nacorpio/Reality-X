@@ -5,6 +5,6 @@ import com.nacorpio.eco.IWalletItem;
 public abstract class Coin implements IWalletItem {
 
 	@Override
-	public abstract float getValue(); /
+	public abstract float getValue(); 
 
 }

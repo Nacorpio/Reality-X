@@ -28,6 +28,12 @@ public class Account {
 			if (balance - par2 >= 0) {
 				float tax = CostUtilities.getCashHandle(null, par2);
 				paid_taxes += tax;
+				if (par1 instanceof Wallet) {
+					Wallet var1 = (Wallet) par1;
+				} else if (par1 instanceof Card) {
+					Card var1 = (Card) par1;
+					var1.deposit(par3, par2, this);
+				}
 				return true;
 			}
 		}

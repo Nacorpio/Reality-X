@@ -25,10 +25,18 @@ public abstract class Card implements IWalletItem {
 	/**
 	 * Withdraw money from this Card and deposit it into the specified Wallet.
 	 * @param par1 the passcode of this Card.
-	 * @param par2 the amount of money to send.
-	 * @param par3 the recipient Wallet.
+	 * @param par2 the amount of money to withdraw.
+	 * @param par3 the recipient.
 	 */
-	public abstract void withdraw(int par1, float par2, Wallet par3);
+	public abstract void withdraw(int par1, float par2, Object par3);
+	
+	/**
+	 * Deposit money to this Card from the specified cash holder.
+	 * @param par1 the passcode of this Card.
+	 * @param par2 the amount of money to deposit.
+	 * @param par3 the cash holder.
+	 */
+	public abstract void deposit(int par1, float par2, Object par3);
 	
 	/**
 	 * Returns the unique number of this card.
