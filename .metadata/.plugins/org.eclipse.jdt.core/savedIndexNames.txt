@@ -1,0 +1,5 @@
+INDEX VERSION 1.126+C:\Users\Nacorpio\Desktop\Reality-X\.metadata\.plugins\org.eclipse.jdt.core
+4284356288.index
+2774924661.index
+241760612.index
+4273340879.index
