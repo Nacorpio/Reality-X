@@ -9,7 +9,7 @@ public class Coin5Cent extends Coin {
 
 	@Override
 	public String getName() {
-		return "5¢";
+		return "5_cent";
 	}
 
 }
