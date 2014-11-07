@@ -57,3 +57,7 @@ $RECYCLE.BIN/
 *.msi
 *.msm
 *.msp
+*.prefs
+.metadata/.plugins/org.eclipse.debug.ui/launchConfigurationHistory.xml
+.metadata/.plugins/org.eclipse.e4.workbench/workbench.xmi
+.metadata/.plugins/org.eclipse.e4.workbench/workbench.xmi
