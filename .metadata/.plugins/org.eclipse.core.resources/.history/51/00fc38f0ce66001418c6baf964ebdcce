@@ -11,7 +11,6 @@ import com.nacorpio.eco.cash.BillHundred;
 import com.nacorpio.eco.cash.BillOne;
 import com.nacorpio.eco.cash.BillTen;
 import com.nacorpio.eco.cash.BillTwenty;
-import com.nacorpio.eco.cash.BillTwo;
 import com.nacorpio.eco.cash.Coin;
 import com.nacorpio.eco.cash.Coin10Cent;
 import com.nacorpio.eco.cash.Coin1Cent;
@@ -174,86 +173,153 @@ public class Wallet {
 	
 	
 	
-	public static final List<IWalletItem> byCash(float par1) {
+	public static final List<IWalletItem> byCash(float par1) throws InstantiationException, IllegalAccessException {
 		
-		List<IWalletItem> result = new ArrayList<IWalletItem>();
+		/**
+		 * Defining the lists that will be holding the necessary values.
+		 */
+		List<IWalletItem> finalres = new ArrayList<IWalletItem>();
+		List<Float> result = new ArrayList<Float>();
 		
-		List<CASH_BILL> bills = new ArrayList<CASH_BILL>();
-		List<CASH_COIN> coins = new ArrayList<CASH_COIN>();
-		
-		float left = par1;
-		
-		while (left > 0) {
+		float var1 = par1;
 			
-			if (left >= 1) {
-				
-				CASH_BILL bill = CASH_BILL.closest(left);
-				bills.add(bill);
-				
-				left -= bill.value;
-				
-			} else if (left <= 1) {
-				
-				CASH_COIN coin = CASH_COIN.closest(left);
-				coins.add(coin);
-				
-				left -= coin.value;
-				
-			}
+		/*
+		 * 
+		 */
+		while (var1 > 0) {
 			
-		}
-		
-		for (CASH_BILL var: bills) {
-			switch ((int) var.value) {
-			case 1:
-				result.add(new BillOne());
-				break;
-			case 2:
-				result.add(new BillTwo());
-				break;
-			case 5:
-				result.add(new BillFive());
-				break;
-			case 10:
-				result.add(new BillTen());
-				break;
-			case 20:
-				result.add(new BillTwenty());
-				break;
-			case 50:
-				result.add(new BillFifty());
-				break;
-			case 100:
-				result.add(new BillHundred());
-				break;
-			default:
-				return null;
+			/* 
+			 * Check if we need bills or coins.
+			 * If the value is greater or equal to the value of 1, it's always a bill or a $1 coin.
+			 * Though, if the value is less than the value of 1, it's always a coin (cents).
+			 */
+			
+			/*
+			 * In this case, we have a bill.
+			 */
+			if (par1 >= 1) {
+				
+				/*
+				 * We find the closest bill to the value we're trying to calculate.
+				 * If we have a value of $105 for example, we get the $100 bill.
+				 * Another case, if we have $45, we get the $20 bill.
+				 */
+				CASH_BILL bill = CASH_BILL.closest(par1);
+				
+				/*
+				 * We add the value of the bill which is closest to our value to a list.
+				 * This is the list of all bill values that we need to reach the final value.
+				 */
+				result.add(bill.value);
+				
+				/**
+				 * The var1 variable is used for calculating how much is left everytime.
+				 * This variable has a initial value of the value that we input.
+				 */
+				var1 -= bill.value;
+				
+			/*
+			 * In this case we have a coin.
+			 */
+			} else if (par1 < 1) {
+				
+				/*
+				 * Just like we did before, we find the closest matching coin.
+				 */
+				CASH_COIN coin = CASH_COIN.closest(par1);
+				
+				/**
+				 * Like we did before, we add the matching value to our list of floats.
+				 */
+				result.add(coin.value);
+				
+				/**
+				 * And then we subtract the value from our init-valued variable.
+				 */
+				var1 -= coin.value;
+				
 			}
 		}
 		
-		for (CASH_COIN var: coins) {
-			switch ((int) var.value * 100) {
-			case 1:
-				result.add(new Coin1Cent());
-				break;
-			case 10:
-				result.add(new Coin10Cent());
-				break;
-			case 25:
-				result.add(new Coin25Cent());
-				break;
-			case 50:
-				result.add(new Coin50Cent());
-				break;
-			case 100:
-				result.add(new Coin1Dollar());
-				break;
-			default:
-				return null;
+		/**
+		 * This is a stupid thing; I just make a new variable out of another one.
+		 * I'm sorry - I was just lazy.
+		 */
+		float left = var1;
+		
+		/*
+		 * I don't know if this is a good idea or not; I'm trying to add the remaining cash into the list of floats.
+		 * Correct me if this isn't a good way of doing it - it looks like I'm getting the wrong outcome from doing it.
+		 */
+		result.add(left);
+		
+		/*
+		 * Now we have to go through every value within the float list.
+		 * We then check the value, and match it with a class, and then create a new instance of that class.
+		 */
+		for (Float var: result) {
+			
+			/*
+			 * As we did before, we now check if it's a bill or a coin by checking the value.
+			 */
+			if (var >= 1) {
+				
+				// bill
+				
+				/*
+				 * We now look if there's a bill that represents the current value in the float list.
+				 */
+				CASH_BILL bill = CASH_BILL.byValue(var);
+				
+				/*
+				 *  This is just hard-coded; there might be better ways of doing this.
+				 *  I'm just checking what type of bill we get, and then add it to the finalres list.
+				 */
+
+				if (bill == CASH_BILL.BILL_ONE) {
+					finalres.add(new BillOne());
+				} else if (bill == CASH_BILL.BILL_FIVE) {
+					finalres.add(new BillFive());
+				} else if (bill == CASH_BILL.BILL_TEN) {
+					finalres.add(new BillTen());
+				} else if (bill == CASH_BILL.BILL_TWENTY) {
+					finalres.add(new BillTwenty());
+				} else if (bill == CASH_BILL.BILL_FIFTY) {
+					finalres.add(new BillFifty());
+				} else if (bill == CASH_BILL.BILL_HUNDRED) {
+					finalres.add(new BillHundred());
+				}
+				
+			} else {
+				
+				/**
+				 * The same thing happens below, but it's about coins instead.
+				 */
+				
+				// coin
+				CASH_COIN coin = CASH_COIN.byValue(var);
+				
+				if (coin == CASH_COIN.COIN_1C) {
+					finalres.add(new Coin1Cent());
+				} else if (coin == CASH_COIN.COIN_5C) {
+					finalres.add(new Coin5Cent());
+				} else if (coin == CASH_COIN.COIN_10C) {
+					finalres.add(new Coin10Cent());
+				} else if (coin == CASH_COIN.COIN_25C) {
+					finalres.add(new Coin25Cent());
+				} else if (coin == CASH_COIN.COIN_50C) {
+					finalres.add(new Coin50Cent());
+				} else if (coin == CASH_COIN.COIN_1) {
+					finalres.add(new Coin1Dollar());
+				}
+				
 			}
 		}
 		
-		return result;
+		/*
+		 * Now the list is filled with the coins and bills, and is ready to be returned for usage.
+		 */
+		return finalres;
 		
 	}
 	

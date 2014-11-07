@@ -30,10 +30,6 @@ public class Account {
 				paid_taxes += tax;
 				if (par1 instanceof Wallet) {
 					Wallet var1 = (Wallet) par1;
-					// TODO: Add the cash in the wallet.
-					/*
-					 * The bill and coin system isn't finished.
-					 */
 				} else if (par1 instanceof Card) {
 					Card var1 = (Card) par1;
 					var1.deposit(par3, par2, this);

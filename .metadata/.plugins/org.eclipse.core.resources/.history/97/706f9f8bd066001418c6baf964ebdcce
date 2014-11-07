@@ -11,7 +11,6 @@ import com.nacorpio.eco.cash.BillHundred;
 import com.nacorpio.eco.cash.BillOne;
 import com.nacorpio.eco.cash.BillTen;
 import com.nacorpio.eco.cash.BillTwenty;
-import com.nacorpio.eco.cash.BillTwo;
 import com.nacorpio.eco.cash.Coin;
 import com.nacorpio.eco.cash.Coin10Cent;
 import com.nacorpio.eco.cash.Coin1Cent;
@@ -206,54 +205,13 @@ public class Wallet {
 		for (CASH_BILL var: bills) {
 			switch ((int) var.value) {
 			case 1:
-				result.add(new BillOne());
-				break;
-			case 2:
-				result.add(new BillTwo());
-				break;
-			case 5:
-				result.add(new BillFive());
-				break;
-			case 10:
-				result.add(new BillTen());
-				break;
-			case 20:
-				result.add(new BillTwenty());
-				break;
-			case 50:
-				result.add(new BillFifty());
-				break;
-			case 100:
-				result.add(new BillHundred());
-				break;
-			default:
-				return null;
+				
 			}
 		}
 		
 		for (CASH_COIN var: coins) {
-			switch ((int) var.value * 100) {
-			case 1:
-				result.add(new Coin1Cent());
-				break;
-			case 10:
-				result.add(new Coin10Cent());
-				break;
-			case 25:
-				result.add(new Coin25Cent());
-				break;
-			case 50:
-				result.add(new Coin50Cent());
-				break;
-			case 100:
-				result.add(new Coin1Dollar());
-				break;
-			default:
-				return null;
-			}
+			
 		}
-		
-		return result;
 		
 	}
 	
