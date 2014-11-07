@@ -20,7 +20,7 @@ import com.nacorpio.eco.cash.Coin25Cent;
 import com.nacorpio.eco.cash.Coin50Cent;
 import com.nacorpio.eco.cash.Coin5Cent;
 
-public class Wallet {
+public class Wallet { 
 	
 	public static enum CASH_BILL {
 		
