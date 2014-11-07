@@ -9,7 +9,7 @@ public class Economy {
 	public static void main(String[] par1) throws InstantiationException, IllegalAccessException {
 		for (IWalletItem var: Wallet.byCash(56)) {
 			System.out.println(var.getName());
-			// 
+			// l
 		}
 	}
 	
