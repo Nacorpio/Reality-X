@@ -5,120 +5,14 @@ import java.util.List;
 
 import com.nacorpio.eco.IWalletItem;
 import com.nacorpio.eco.cash.Bill;
-import com.nacorpio.eco.cash.BillFifty;
-import com.nacorpio.eco.cash.BillFive;
-import com.nacorpio.eco.cash.BillHundred;
-import com.nacorpio.eco.cash.BillOne;
-import com.nacorpio.eco.cash.BillTen;
-import com.nacorpio.eco.cash.BillTwenty;
-import com.nacorpio.eco.cash.BillTwo;
+import com.nacorpio.eco.cash.CashUtil;
 import com.nacorpio.eco.cash.Coin;
-import com.nacorpio.eco.cash.Coin10Cent;
-import com.nacorpio.eco.cash.Coin1Cent;
-import com.nacorpio.eco.cash.Coin1Dollar;
-import com.nacorpio.eco.cash.Coin25Cent;
-import com.nacorpio.eco.cash.Coin50Cent;
-import com.nacorpio.eco.cash.Coin5Cent;
+import com.nacorpio.eco.enumeration.CASH_BILL;
+import com.nacorpio.eco.enumeration.CASH_COIN;
 
 public class Wallet { 
 	
-	public static enum CASH_BILL {
-		
-		BILL_ONE(1, BillOne.class),
-		BILL_FIVE(5, BillFive.class),
-		BILL_TEN(10, BillTen.class),
-		BILL_TWENTY(20, BillTwenty.class),
-		BILL_FIFTY(50, BillFifty.class),
-		BILL_HUNDRED(100, BillHundred.class);
-		
-		public float value;
-		Class<? extends IWalletItem> clazz;
-		
-		CASH_BILL(float par1, Class<? extends IWalletItem> par2) {
-			value = par1;
-		}
-		
-		public static final CASH_BILL closest(float par1) {
-			
-			List<Float> test = new ArrayList<Float>();
-			
-			for (CASH_BILL var: values()) {
-				if (par1 >= var.value) {
-					test.add(par1 - var.value);
-				}
-			}
-			
-			float least = 0f;
-			int cindex = 0;
-			
-			for (Float var: test) {
-				if (var < least)
-					least = var;
-					cindex++;
-			}
-			
-			return values()[cindex - 1];
-			
-		}
-		
-		public static final CASH_BILL byValue(float par1) {
-			for (CASH_BILL var: values()) {
-				if (var.value == par1)
-					return var;
-			}
-			return null;
-		}
-		
-	}
 	
-	public static enum CASH_COIN {
-		
-		COIN_1C(0.01f, Coin1Cent.class),
-		COIN_5C(0.05f, Coin5Cent.class),
-		COIN_10C(0.1f, Coin10Cent.class),
-		COIN_25C(0.25f, Coin25Cent.class),
-		COIN_50C(0.5f, Coin50Cent.class),
-		COIN_1(1, Coin1Dollar.class);
-		
-		public float value;
-		Class<? extends IWalletItem> clazz;
-		
-		CASH_COIN(float par1, Class<? extends IWalletItem> par2) {
-			value = par1;
-		}
-		
-		public static final CASH_COIN closest(float par1) {
-			
-			List<Float> test = new ArrayList<Float>();
-			
-			for (CASH_COIN var: values()) {
-				if (par1 >= var.value) {
-					test.add(par1 - var.value);
-				}
-			}
-			
-			float least = 0f;
-			int cindex = 0;
-			
-			for (Float var: test) {
-				if (var < least)
-					least = var;
-					cindex++;
-			}
-			
-			return values()[cindex - 1];
-			
-		}
-		
-		public static final CASH_COIN byValue(float par1) {
-			for (CASH_COIN var: values()) {
-				if (var.value == par1)
-					return var;
-			}
-			return null;
-		}
-		
-	}
 	
 	protected List<Bill> billContent =
 			new ArrayList<Bill>();
@@ -141,6 +35,51 @@ public class Wallet {
 	public Wallet(int par1, int par2) {
 		billSpaceSize = par1;
 		coinSpaceSize = par2;
+	}
+	
+	/**
+	 * Returns the required bills and coins to cover the specified sum of money.
+	 * @param par1 the amount of money to cover.
+	 * @return a list of the IWalletItem within the Wallet that are needed to cover the costs. 
+	 */
+	public final List<IWalletItem> getContentFor(float par1) {	
+		if (hasRequired(par1)) {
+			
+			List<CASH_BILL> bills = new ArrayList<CASH_BILL>();
+			List<CASH_COIN> coins = new ArrayList<CASH_COIN>();
+			
+			float target = par1;
+			
+			while (target > 0) {
+				
+				if (target >= 1) {
+					
+					CASH_BILL bill = CASH_BILL.closest(target);
+					bills.add(bill);
+					
+					target -= bill.value;
+					
+				} else if (target <= 1) {
+					
+					CASH_COIN coin = CASH_COIN.closest(target);
+					coins.add(coin);
+					
+					target -= coin.value;
+					
+				}
+				
+			}
+			
+			List<IWalletItem> items = CashUtil.enumToItems(bills, coins);
+			
+			if (CashUtil.calculateCost(items) == par1) {
+				return items;
+			}
+			return null;
+			
+			
+		}
+		return null;
 	}
 	
 	/**

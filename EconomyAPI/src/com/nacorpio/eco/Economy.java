@@ -8,7 +8,7 @@ public class Economy {
 	public static final float TAX_PERCENTAGE = 2.5F;
 
 	public static void main(String[] par1) throws InstantiationException, IllegalAccessException {
-		for (IWalletItem var: CashUtil.calculateCash(125)) {
+		for (IWalletItem var: CashUtil.calculateItems(125)) {
 			System.out.println(var.getName());
 		}
 	}

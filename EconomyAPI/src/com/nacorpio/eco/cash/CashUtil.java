@@ -4,22 +4,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.nacorpio.eco.IWalletItem;
-import com.nacorpio.eco.bank.Wallet.CASH_BILL;
-import com.nacorpio.eco.bank.Wallet.CASH_COIN;
+import com.nacorpio.eco.enumeration.CASH_BILL;
+import com.nacorpio.eco.enumeration.CASH_COIN;
 
 public class CashUtil {
 	
 	public static final List<IWalletItem> calculateChange(float par1, float par2) {
 		if (par2 >= par1) {		
 			float change = par2 - par1;
-			return calculateCash(change);	
+			return calculateItems(change);	
 		}
 		return null;
 	}
 	 
-	public static final List<IWalletItem> calculateCash(float par1) {
+	public static final float calculateCost(List<IWalletItem> par1) {
 		
-		List<IWalletItem> result = new ArrayList<IWalletItem>();
+		float result = 0;
+		
+		for (IWalletItem var: par1) {
+			result += var.getValue();
+		}
+		
+		return result;
+		
+	}
+	
+	public static final List<IWalletItem> calculateItems(float par1) {
 		
 		List<CASH_BILL> bills = new ArrayList<CASH_BILL>();
 		List<CASH_COIN> coins = new ArrayList<CASH_COIN>();
@@ -46,7 +56,15 @@ public class CashUtil {
 			
 		}
 		
-		for (CASH_BILL var: bills) {
+		return enumToItems(bills, coins);
+		
+	}
+	
+	public static final List<IWalletItem> enumToItems(List<CASH_BILL> par1, List<CASH_COIN> par2) {
+		
+		List<IWalletItem> result = new ArrayList<IWalletItem>();
+		
+		for (CASH_BILL var: par1) {
 			switch ((int) var.value) {
 			case 1:
 				result.add(new BillOne());
@@ -74,7 +92,7 @@ public class CashUtil {
 			}
 		}
 		
-		for (CASH_COIN var: coins) {
+		for (CASH_COIN var: par2) {
 			switch ((int) (var.value * 100)) {
 			case 1:
 				result.add(new Coin1Cent());
@@ -99,7 +117,7 @@ public class CashUtil {
 		return result;
 		
 	}
-	
+	 
 	public static final IWalletItem greatestValue(List<IWalletItem> par1) {
 		
 		List<Float> values = new ArrayList<Float>();
