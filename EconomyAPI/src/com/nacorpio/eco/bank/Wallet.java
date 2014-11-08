@@ -85,7 +85,7 @@ public class Wallet {
 	/**
 	 * Add content to this wallet.
 	 * <p>
-	 * Depending on the item, it will be added to a seperate department in this Wallet.<br>
+	 * Depending on the item, it will be added to a separate department in this Wallet.<br>
 	 * The size of the different departments are defined when initializing the instance.
 	 * @param par1 the item.
 	 */
