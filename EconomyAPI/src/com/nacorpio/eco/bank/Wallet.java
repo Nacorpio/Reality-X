@@ -5,13 +5,14 @@ import java.util.List;
 
 import com.nacorpio.diagnostics.Logging;
 import com.nacorpio.eco.IWalletItem;
+import com.nacorpio.eco.bank.card.ICashHolder;
 import com.nacorpio.eco.cash.Bill;
 import com.nacorpio.eco.cash.CashUtil;
 import com.nacorpio.eco.cash.Coin;
 import com.nacorpio.eco.enumeration.CASH_BILL;
 import com.nacorpio.eco.enumeration.CASH_COIN;
 
-public class Wallet { 
+public class Wallet implements ICashHolder { 
 	
 	protected List<Bill> billContent =
 			new ArrayList<Bill>();
@@ -119,7 +120,7 @@ public class Wallet {
 	 * @return true/false.
 	 */
 	public final boolean hasRequired(float par1) {
-		return getTotalValue() >= par1;
+		return getBalance() >= par1;
 	}
 	
 	/**
@@ -138,14 +139,6 @@ public class Wallet {
 	 */
 	public final Bill getBillSlot(int par1) {
 		return billContent.get(par1);
-	}
-	
-	/**
-	 * Returns the total value of all the cash together in this Wallet.
-	 * @return the total value.
-	 */
-	public final float getTotalValue() {
-		return getCoinValue() + getBillValue();
 	}
 	
 	/**
@@ -170,6 +163,70 @@ public class Wallet {
 			value += par.getValue();
 		}
 		return value;
+	}
+
+	@Override
+	public float getBalance() {
+		return getCoinValue() + getBillValue();
+	}
+
+	@Override
+	public void add(float par1) {
+		
+		for (IWalletItem var: CashUtil.calculateItems(par1)) {
+			
+			List<Coin> var1 = new ArrayList<Coin>();
+			List<Bill> var2 = new ArrayList<Bill>();
+			
+			if (var instanceof Coin) {
+				var1.add((Coin) var);
+			} else if (var instanceof Bill) {
+				var2.add((Bill) var);
+			}
+			
+			if (billContent.size() + var2.size() <= billSpaceSize &&
+				coinContent.size() + var1.size() <= coinSpaceSize) {
+				
+				if (var instanceof Coin) {
+					coinContent.add((Coin) var);
+				} else if (var instanceof Bill) {
+					billContent.add((Bill) var);
+				}
+				
+			}
+			
+		}
+		
+	}
+
+	@Override
+	public void remove(float par1) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void transfer(ICashHolder par1, float par2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean hasSufficientCapacity(float par1) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean hasSufficientCredits(float par1) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public float getCreditLimit() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 }

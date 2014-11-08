@@ -1,8 +1,9 @@
 package com.nacorpio.eco.bank;
 
 import com.nacorpio.eco.IWalletItem;
+import com.nacorpio.eco.bank.card.ICashHolder;
 
-public abstract class Card implements IWalletItem {
+public abstract class Card implements IWalletItem, ICashHolder {
 
 	private String number;
 	private int securityCode;
@@ -23,12 +24,12 @@ public abstract class Card implements IWalletItem {
 	}
 	
 	/**
-	 * Withdraw money from this Card and deposit it into the specified Wallet.
+	 * Withdraw money from this Card and deposit it into the specified cash holder.
 	 * @param par1 the passcode of this Card.
 	 * @param par2 the amount of money to withdraw.
 	 * @param par3 the recipient.
 	 */
-	public abstract void withdraw(int par1, float par2, Object par3);
+	public abstract boolean withdraw(int par1, float par2, ICashHolder par3);
 	
 	/**
 	 * Deposit money to this Card from the specified cash holder.
@@ -36,7 +37,21 @@ public abstract class Card implements IWalletItem {
 	 * @param par2 the amount of money to deposit.
 	 * @param par3 the cash holder.
 	 */
-	public abstract void deposit(int par1, float par2, Object par3);
+	public abstract boolean deposit(int par1, float par2, ICashHolder par3);
+	
+	/**
+	 * An event which occurs when a deposit is being authorized from this {@code Card}.
+	 * @param par1 the cash holder of which the virtual credit is being sent from.
+	 * @param par2 the amount of virtual credit which is being deposited.
+	 */
+	public abstract void onDepositAuthEvent(ICashHolder par1, float par2);
+	
+	/**
+	 * An event which occurs when a deposit has been completed between this Card and a cash holder.
+	 * @param par1 the cash holder of which the virtual credit was sent from.
+	 * @param par2 the amount of virtual credit which was deposited.
+	 */
+	public abstract void onDepositCompleteEvent(ICashHolder par1, float par2);
 	
 	/**
 	 * Returns the unique number of this card.
