@@ -1,7 +1,7 @@
 package com.nacorpio.eco.bank;
 
 import com.nacorpio.eco.Economy;
-import com.nacorpio.eco.cost.CostUtilities;
+import com.nacorpio.eco.cost.CostUtil;
 
 public class Account {
 	
@@ -26,7 +26,7 @@ public class Account {
 	public final boolean withdraw(Object par1, float par2, int par3) {
 		if (par3 == securityCode) {
 			if (balance - par2 >= 0) {
-				float tax = CostUtilities.getCashHandle(null, par2);
+				float tax = CostUtil.getCashHandle(null, par2);
 				paid_taxes += tax;
 				if (par1 instanceof Wallet) {
 					Wallet var1 = (Wallet) par1;
@@ -47,7 +47,7 @@ public class Account {
 	public final boolean deposit(Object par1, float par2, int par3) {
 		if (par3 == securityCode) {
 			if (balance + par2 <= balanceLimit) {
-				float tax = CostUtilities.getCashHandle(null, balance);
+				float tax = CostUtil.getCashHandle(null, balance);
 				paid_taxes += tax;
 				balance += par2 - tax;
 				return true;

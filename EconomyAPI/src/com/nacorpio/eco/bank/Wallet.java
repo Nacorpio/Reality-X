@@ -31,7 +31,7 @@ public class Wallet {
 		BILL_FIFTY(50, BillFifty.class),
 		BILL_HUNDRED(100, BillHundred.class);
 		
-		float value;
+		public float value;
 		Class<? extends IWalletItem> clazz;
 		
 		CASH_BILL(float par1, Class<? extends IWalletItem> par2) {
@@ -80,7 +80,7 @@ public class Wallet {
 		COIN_50C(0.5f, Coin50Cent.class),
 		COIN_1(1, Coin1Dollar.class);
 		
-		float value;
+		public float value;
 		Class<? extends IWalletItem> clazz;
 		
 		CASH_COIN(float par1, Class<? extends IWalletItem> par2) {
@@ -170,91 +170,6 @@ public class Wallet {
 				// The limit for cards was exceeded.
 			}
 		}
-	}
-	
-	
-	
-	public static final List<IWalletItem> byCash(float par1) {
-		
-		List<IWalletItem> result = new ArrayList<IWalletItem>();
-		
-		List<CASH_BILL> bills = new ArrayList<CASH_BILL>();
-		List<CASH_COIN> coins = new ArrayList<CASH_COIN>();
-		
-		float left = par1;
-		
-		while (left > 0) {
-			
-			if (left >= 1) {
-				
-				CASH_BILL bill = CASH_BILL.closest(left);
-				bills.add(bill);
-				
-				left -= bill.value;
-				
-			} else if (left <= 1) {
-				
-				CASH_COIN coin = CASH_COIN.closest(left);
-				coins.add(coin);
-				
-				left -= coin.value;
-				
-			}
-			
-		}
-		
-		for (CASH_BILL var: bills) {
-			switch ((int) var.value) {
-			case 1:
-				result.add(new BillOne());
-				break;
-			case 2:
-				result.add(new BillTwo());
-				break;
-			case 5:
-				result.add(new BillFive());
-				break;
-			case 10:
-				result.add(new BillTen());
-				break;
-			case 20:
-				result.add(new BillTwenty());
-				break;
-			case 50:
-				result.add(new BillFifty());
-				break;
-			case 100:
-				result.add(new BillHundred());
-				break;
-			default:
-				return null;
-			}
-		}
-		
-		for (CASH_COIN var: coins) {
-			switch ((int) var.value * 100) {
-			case 1:
-				result.add(new Coin1Cent());
-				break;
-			case 10:
-				result.add(new Coin10Cent());
-				break;
-			case 25:
-				result.add(new Coin25Cent());
-				break;
-			case 50:
-				result.add(new Coin50Cent());
-				break;
-			case 100:
-				result.add(new Coin1Dollar());
-				break;
-			default:
-				return null;
-			}
-		}
-		
-		return result;
-		
 	}
 	
 	/**
