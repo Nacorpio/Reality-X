@@ -3,6 +3,7 @@ package com.nacorpio.eco.bank;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.nacorpio.diagnostics.Logging;
 import com.nacorpio.eco.IWalletItem;
 import com.nacorpio.eco.cash.Bill;
 import com.nacorpio.eco.cash.CashUtil;
@@ -11,8 +12,6 @@ import com.nacorpio.eco.enumeration.CASH_BILL;
 import com.nacorpio.eco.enumeration.CASH_COIN;
 
 public class Wallet { 
-	
-	
 	
 	protected List<Bill> billContent =
 			new ArrayList<Bill>();
@@ -74,7 +73,10 @@ public class Wallet {
 			
 			if (CashUtil.calculateCost(items) == par1) {
 				return items;
+			} else {
+				Logging.log("The cost of the items is not the same as the specified cost!", "", "Wallet", "getContentFor(Float)");
 			}
+			
 			return null;
 			
 			
@@ -94,19 +96,19 @@ public class Wallet {
 			if (billContent.size() + 1 <= billSpaceSize) {
 				billContent.add((Bill) par1);
 		 	} else {
-				// The limit for bills was exceeded.
+				Logging.log("The capacity for bill storage was reached!", par1, "Wallet", "addContent(IWalletItem)");
 			}
 		} else if (par1 instanceof Coin) {
 			if (coinContent.size() + 1 <= coinSpaceSize) {
 				coinContent.add((Coin) par1);
 			} else {
-				// The limit for coins was exceeded.
+				Logging.log("The capacity for coin storage was reached!", par1, "Wallet", "addContent(IWalletItem)");
 			}
 		} else if (par1 instanceof Card) {
 			if (cardContent.size() + 1 <= cardSpaceSize) {
 				cardContent.add((Card) par1);
 			} else {
-				// The limit for cards was exceeded.
+				Logging.log("The capacity for card storage was reached!", par1, "Wallet", "addContent(IWalletItem)");
 			}
 		}
 	}

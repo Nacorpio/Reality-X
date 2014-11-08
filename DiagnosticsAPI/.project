@@ -3,6 +3,11 @@
 	<name>DiagnosticsAPI</name>
 	<comment></comment>
 	<projects>
+		<project>EconomyAPI</project>
+		<project>FuelAPI</project>
+		<project>NUtilities</project>
+		<project>Project Traffic</project>
+		<project>RoadAPI</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

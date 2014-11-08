@@ -3,6 +3,11 @@
 	<name>NUtilities</name>
 	<comment></comment>
 	<projects>
+		<project>DiagnosticsAPI</project>
+		<project>EconomyAPI</project>
+		<project>FuelAPI</project>
+		<project>Project Traffic</project>
+		<project>RoadAPI</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
